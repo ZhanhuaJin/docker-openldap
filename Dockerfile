@@ -1,37 +1,6 @@
-#FROM phusion/baseimage:0.9.16
-# Use baseimage-docker's init system.
-#CMD ["/sbin/my_init"]
-#FROM osixia/openldap:1.2.1
-
-#ENV DEBIAN_FRONTEND noninteractive
-
-# Install Apache2, PHP and LTB ssp
-#RUN apt-get update && apt-get install -y apache2 php5 php5-mcrypt php5-ldap && apt-get clean
-#RUN curl -L https://ltb-project.org/archives/self-service-password_1.0-2_all.deb > self-service-password.deb && dpkg -i self-service-password.deb ; rm -f self-service-password.deb
-#RUN apt-get update && apt-get install -y curl apache2 php7.0 php7.0-mcrypt php7.0-ldap libapache2-mod-php7.0 php7.0-mbstring php7.0-xml php7.0-zip && apt-get clean
-#RUN curl -L https://ltb-project.org/archives/self-service-password_1.2-1_all.deb > self-service-password.deb && dpkg -i self-service-password.deb ; rm -f self-service-password.deb
-
-# Configure self-service-password site
-#RUN ln -s ../../mods-available/mcrypt.ini /etc/php5/apache2/conf.d/20-mcrypt.ini
-#RUN a2dissite 000-default && a2ensite self-service-password
-
-# This is where configuration goes
-#ADD assets/config.inc.php /usr/share/self-service-password/conf/config.inc.php
-
-# Start Apache2 as runit service
-#RUN mkdir /etc/service
-#RUN mkdir /etc/service/apache2
-#ADD assets/apache2.sh /etc/service/apache2/run
-
-#EXPOSE 80
-
-#CMD /usr/sbin/apachectl -D FOREGROUND
-#CMD sh -c /etc/service/apache2/run 
-#RUN sh /usr/sbin/apache2ctl -k start
-
 FROM  ubuntu:xenial
 
-MAINTAINER Larry Cai "larry.caiyu@gmail.com"
+MAINTAINER Zhanhua Jin "jinzhanhua@gmail.com"
 
 # install slapd in noninteractive mode
 RUN apt-get update && \
@@ -49,7 +18,7 @@ RUN curl -L https://ltb-project.org/archives/self-service-password_1.2-1_all.deb
 RUN a2dissite 000-default && a2ensite self-service-password
 
 # This is where configuration goes
-ADD assets/config.inc.php /usr/share/self-service-password/conf/config.inc.php
+ADD config/ssp/config.inc.php /usr/share/self-service-password/conf/config.inc.php
 
 # Start Apache2 as runit service
 #CMD /usr/sbin/apachectl -k start
