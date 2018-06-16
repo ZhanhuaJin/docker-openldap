@@ -15,7 +15,6 @@ RUN apt-get update && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/*
 
-#RUN apt-get update && apt-get install -y curl apache2 php7.0 php7.0-mcrypt php7.0-ldap libapache2-mod-php7.0 php7.0-mbstring php7.0-xml php7.0-zip && apt-get clean
 RUN curl -L https://ltb-project.org/archives/self-service-password_${SSP_VER}-1_all.deb > self-service-password.deb && dpkg -i self-service-password.deb ; rm -f self-service-password.deb
 RUN useradd -M -d ${LAM_DIR} ${LAM_USER} \
 	&& cd /tmp \
@@ -63,8 +62,8 @@ ADD config/apache/000-default.conf /etc/apache2/sites-available/000-default.conf
 #	ldapadd -Y EXTERNAL -H ldapi:/// -f back.ldif &&\
 #	ldapadd -Y EXTERNAL -H ldapi:/// -f sssvlv_load.ldif &&\
 #    ldapadd -Y EXTERNAL -H ldapi:/// -f sssvlv_config.ldif &&\
-#    ldapadd -x -D cn=admin,dc=openstack,dc=org -w password -c -f front.ldif &&\
-#    ldapadd -x -D cn=admin,dc=openstack,dc=org -w password -c -f more.ldif
+#    ldapadd -x -D cn=admin,dc=example,dc=org -w password -c -f front.ldif &&\
+#    ldapadd -x -D cn=admin,dc=example,dc=org -w password -c -f more.ldif
 
 # LDAP
 VOLUME /var/lib/ldap
@@ -73,9 +72,12 @@ VOLUME /etc/ldap/slapd.d
 # SSP
 #VOLUME /usr/share/self-service-password/conf/config.inc.php
 
+# LAM
+VOLUME /usr/share/ldap-account-manager/config
 
 EXPOSE 80
 EXPOSE 389
+EXPOSE 443
 
 #CMD slapd -h 'ldap:/// ldapi:///' -g openldap -u openldap -F /etc/ldap/slapd.d -d stats
 #CMD /usr/sbin/apachectl -D FOREGROUND
