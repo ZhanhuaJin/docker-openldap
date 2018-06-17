@@ -37,6 +37,7 @@ RUN useradd -M -d ${LAM_DIR} ${LAM_USER} \
 ADD config/ssp/config.inc.php /usr/share/self-service-password/conf/config.inc.php
 
 ADD config/apache/000-default.conf /etc/apache2/sites-available/000-default.conf
+ADD config/apache/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
 #ADD config/apache/self-service-password.conf /etc/apache2/sites-available/self-service-password.conf
 #ADD config/apache/ldap-account-manager.conf /etc/apache2/sites-available/ldap-account-manager.conf
 
@@ -46,7 +47,13 @@ ADD config/apache/000-default.conf /etc/apache2/sites-available/000-default.conf
 #RUN ls -la /etc/apache2/sites-available
 #RUN more /etc/apache2/sites-available/000-default.conf
 #RUN more /etc/apache2/sites-available/self-service-password.conf
+#RUN more /etc/passwd
 
+# APACHE
+RUN a2enmod ssl && \
+	a2enmod rewrite && \
+	mkdir /etc/apache2/certs && \
+	a2ensite default-ssl
 #RUN a2dissite 000-default
 #RUN a2ensite self-service-password
 #RUN a2ensite ldap-account-manager
@@ -69,6 +76,9 @@ ADD config/apache/000-default.conf /etc/apache2/sites-available/000-default.conf
 VOLUME /var/lib/ldap
 VOLUME /etc/ldap/slapd.d
 
+# APACHE
+VOLUME /etc/apache2/certs
+
 # SSP
 #VOLUME /usr/share/self-service-password/conf/config.inc.php
 
@@ -78,6 +88,8 @@ VOLUME /usr/share/ldap-account-manager/config
 EXPOSE 80
 EXPOSE 389
 EXPOSE 443
+
+# LDAP
 
 #CMD slapd -h 'ldap:/// ldapi:///' -g openldap -u openldap -F /etc/ldap/slapd.d -d stats
 #CMD /usr/sbin/apachectl -D FOREGROUND
