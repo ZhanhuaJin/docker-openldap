@@ -41,6 +41,9 @@ ADD config/apache/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
 #ADD config/apache/self-service-password.conf /etc/apache2/sites-available/self-service-password.conf
 #ADD config/apache/ldap-account-manager.conf /etc/apache2/sites-available/ldap-account-manager.conf
 
+RUN mkdir /usr/share/openldap
+ADD config/openldap/mod_ssl.ldif /usr/share/openldap/mod_ssl.ldif 
+
 #DEBUG
 #RUN ls -la /usr/share/self-service-password
 #RUN ls -la ${LAM_DIR}
@@ -72,12 +75,15 @@ RUN a2enmod ssl && \
 #    ldapadd -x -D cn=admin,dc=example,dc=org -w password -c -f front.ldif &&\
 #    ldapadd -x -D cn=admin,dc=example,dc=org -w password -c -f more.ldif
 
+# SSL
+VOLUME /etc/ssl/private
+
 # LDAP
 VOLUME /var/lib/ldap
 VOLUME /etc/ldap/slapd.d
 
 # APACHE
-VOLUME /etc/apache2/certs
+#VOLUME /etc/apache2/certs
 
 # SSP
 #VOLUME /usr/share/self-service-password/conf/config.inc.php
@@ -88,8 +94,10 @@ VOLUME /usr/share/ldap-account-manager/config
 EXPOSE 80
 EXPOSE 389
 EXPOSE 443
+EXPOSE 636
 
 # LDAP
+#CMD ldapmodify -Y EXTERNAL -H ldapi:/// -f mod_ssl.ldif
 
 #CMD slapd -h 'ldap:/// ldapi:///' -g openldap -u openldap -F /etc/ldap/slapd.d -d stats
 #CMD /usr/sbin/apachectl -D FOREGROUND

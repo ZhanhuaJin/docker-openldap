@@ -13,7 +13,7 @@
 #ls -la /etc/ldap/slapd.d
 #ls -la /var/lib
 
-slapd -h 'ldap:/// ldapi:///' -g openldap -u openldap -F /etc/ldap/slapd.d -d stats &
+slapd -h 'ldap:/// ldapi:/// ldaps:///' -g openldap -u openldap -F /etc/ldap/slapd.d -d stats &
  
 # just keep this script running
 while [[ true ]]; do
