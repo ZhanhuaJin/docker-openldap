@@ -14,7 +14,7 @@ Extracting compressed file, copy config.inc.php to docker host directory /data/s
 
 ## Run docker
 
-docker run --name ldap --rm -p 80:80 -p 389:389 -p 443:443 -p 636:636 --volume /data/ssl:/etc/ssl/private --volume /data/slapd/data:/var/lib/ldap --volume /data/slapd/config:/etc/ldap/slapd.d -v /data/ssp/config.inc.php:/usr/share/self-service-password/conf/config.inc.php --volume /data/lam/config:/usr/share/ldap-account-manager/config jinzhanhua/openldap:1.0
+docker run --name ldap --rm -p 80:80 -p 389:389 -p 443:443 -p 636:636 --volume /data/ssl:/etc/ssl/private --volume /data/slapd/database:/var/lib/ldap --volume /data/slapd/config:/etc/ldap/slapd.d -v /data/ssp/config.inc.php:/usr/share/self-service-password/conf/config.inc.php --volume /data/lam/config:/usr/share/ldap-account-manager/config jinzhanhua/openldap:1.0
 
 ## Enable SSL for OpenLDAP
 docker exec ldap ldapmodify -Y EXTERNAL -H ldapi:/// -f /usr/share/openldap/setssl.ldif<br>After SSL enabled, please restart docker container
