@@ -2,7 +2,7 @@ FROM  ubuntu:xenial
 
 MAINTAINER Zhanhua Jin "jinzhanhua@gmail.com"
 
-ENV SSP_VER=1.2
+ENV SSP_VER=1.3
 ENV LAM_VER=6.3
 ENV LAM_USER=lam
 ENV LAM_DIR=/usr/share/ldap-account-manager
@@ -42,7 +42,7 @@ ADD config/apache/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
 #ADD config/apache/ldap-account-manager.conf /etc/apache2/sites-available/ldap-account-manager.conf
 
 RUN mkdir /usr/share/openldap
-ADD config/openldap/mod_ssl.ldif /usr/share/openldap/mod_ssl.ldif 
+ADD config/openldap/setssl.ldif /usr/share/openldap/setssl.ldif 
 
 #DEBUG
 #RUN ls -la /usr/share/self-service-password
