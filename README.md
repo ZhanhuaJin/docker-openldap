@@ -25,12 +25,11 @@ signing_key
 expiration_days = 3650</code></pre>
 Create the server certificate.
 <pre><code>certtool --generate-certificate --load-privkey server.key --load-ca-certificate ca.crt --load-ca-privkey ca.key --template server.info --outfile server.crt</code></pre>
-Use three certificate files for docker
-<ol>
-<li>ca.crt           CA certificate</li>
-<li>server.key       Server certificate</li>
-<li>server.crt       Server private key</li>
-</ol>
+Three certificate files is used for docker
+<pre><code>ca.crt           CA certificate
+server.key       Server certificate
+server.crt       Server private key
+</code></pre>
 ### Copy existing OpenLDAP data
 You have existing OpenLDAP data and copy them to your docker host. OpenLDAP mount host directories as LDAP database. Assuming you have a LDAP database on your docker host in the directory /data/slapd/database and the corresponding LDAP config files on your docker host in the directory /data/slapd/config<br>
 ### Copy generated certifications
@@ -65,7 +64,7 @@ ca.crt<br>
 server.crt<br>
 server.key<br>
 Should has read permission for OpenLDAP and Apache<br>
-<pre><code>sudo chmod 644 ca.crt server.crt server.key</pre></code>
+<pre><code>sudo chmod 644 ca.crt server.crt server.key</code></pre>
 #### Folders contain data of OpenLDAP
 /data/slapd/database<br>
 /data/slapd/config<br>
@@ -73,10 +72,10 @@ Should belong same user and group run OpenLDAP within docker<br>
 <pre><code>sudo chmod -R 105 /data/slapd/database
 sudo chmod -R 105 /data/slapd/config
 sudo chgrp -R 106 /data/slapd/database
-sudo chgrp -R 106 /data/slapd/config</pre></code>
+sudo chgrp -R 106 /data/slapd/config</code></pre>
 #### Folder contain data of LDAP Account Manager
 /data/lam<br>
 LDAP Account Manager should has write permission on this folder<br>
-<pre><code>sudo chmod 777 /data/lam</pre></code> 
+<pre><code>sudo chmod 777 /data/lam</code></pre> 
 ## TODO
 Add replication for OpenLDAP
