@@ -13,6 +13,7 @@ RUN apt-get update && \
     echo 'slapd/root_password_again password password' | debconf-set-selections && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y slapd ldap-utils curl bzip2 apache2 php7.0 php7.0-mcrypt php7.0-ldap libapache2-mod-php7.0 php7.0-mbstring php7.0-xml php7.0-zip && \
 	apt-get clean && \
+  service apache2 stop && \
 	rm -rf /var/lib/apt/lists/*
 
 RUN curl -L https://ltb-project.org/archives/self-service-password_${SSP_VER}-1_all.deb > self-service-password.deb && dpkg -i self-service-password.deb ; rm -f self-service-password.deb
