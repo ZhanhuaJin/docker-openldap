@@ -47,7 +47,7 @@ Edit LDAP section of this file to match your LDAP configuration.
 <pre><code>docker run --name ldap --rm -p 80:80 -p 389:389 -p 443:443 -p 636:636 --volume /data/ssl:/etc/ssl/private --volume /data/slapd/database:/var/lib/ldap --volume /data/slapd/config:/etc/ldap/slapd.d -v /data/ssp/config.inc.php:/usr/share/self-service-password/conf/config.inc.php --volume /data/lam/config:/usr/share/ldap-account-manager/config jinzhanhua/openldap:1.0</code></pre>
 
 ## Enable SSL for OpenLDAP
-<pre><code>docker exec ldap ldapmodify -Y EXTERNAL -H ldapi:/// -f /usr/share/openldap/setssl.ldif</code></pre><br><br>After SSL enabled, please restart docker container
+<pre><code>docker exec ldap ldapmodify -Y EXTERNAL -H ldapi:/// -f /usr/share/openldap/setssl.ldif</code></pre><br>After SSL enabled, please restart docker container
 
 ## Run LDAP Account Manager
 Open browser, enter https://localhost/lam 
@@ -68,7 +68,7 @@ Should has read permission for OpenLDAP and Apache<br>
 #### Folders contain data of OpenLDAP
 /data/slapd/database<br>
 /data/slapd/config<br>
-Should belong to same user and group who run OpenLDAP within docker<br>
+Should belong to same user and group who run OpenLDAP within container<br>
 <pre><code>sudo chmod -R 105 /data/slapd/database
 sudo chmod -R 105 /data/slapd/config
 sudo chgrp -R 106 /data/slapd/database
